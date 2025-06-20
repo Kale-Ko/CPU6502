@@ -1,0 +1,61 @@
+name: Build & Test
+
+on:
+  push:
+    branches: [ "*" ]
+  pull_request:
+    branches: [ "*" ]
+
+jobs:
+  test_build:
+    strategy:
+      matrix:
+        target:
+          - os: ubuntu-latest
+            target: "x86_64-unknown-linux-gcc"
+
+          - os: ubuntu-latest
+            target: "x86_64-unknown-linux-musl"
+
+          - os: ubuntu-latest-arm
+            target: "aarch64-unknown-linux-gcc"
+
+          - os: ubuntu-latest-arm
+            target: "aarch64-unknown-linux-musl"
+
+          - os: windows-latest
+            target: "x86_64-pc-windows-msvc"
+
+          - os: windows-latest-arm
+            target: "aarch64-pc-windows-msvc"
+      fail-fast: false
+
+    name: Build & Test ${{ matrix.target.target }}
+    runs-on: ${{ matrix.target.os }}
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+          target: ${{ matrix.target.target }}
+          rustflags: ""
+          cache: true
+          matcher: true
+
+      - name: Install Cross
+        run: |
+          cargo install cross cargo-xbuild
+
+      - name: Build
+        run: |
+          cross build --target ${{ matrix.target.target }} --release
+
+      - name: Test
+        run: |
+          cross test --target ${{ matrix.target.target }} --release

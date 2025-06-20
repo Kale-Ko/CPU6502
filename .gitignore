@@ -1,0 +1,11 @@
+target/
+debug/
+*.pdb
+
+Cargo.lock
+
+rust-project.json
+**/*.rs.bk
+
+.idea/
+.vscode/
