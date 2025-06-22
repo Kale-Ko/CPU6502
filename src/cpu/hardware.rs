@@ -1,3 +1,5 @@
+pub mod bus;
+
 /**
 * A hardware error that may or may not be fatal.
 */
@@ -53,11 +55,11 @@ pub trait Hardware {
 */
 pub trait AddressableHardware: Hardware {
     /**
-     * Gets the local address range of this piece of hardware.
+     * Gets the local page range of this piece of hardware.
      *
-     * A local address is not the actual address a program would use to access this hardware, it is local to the hardware itself (should generally start at 0).
+     * A local page is not the actual page a program would use to access this hardware, it is local to the hardware itself (should generally start at 0).
      */
-    fn get_range(&self) -> (u16, u16);
+    fn get_range(&self) -> (u8, u8);
 
     /**
      * Reads a byte from the specified local address.
