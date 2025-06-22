@@ -89,21 +89,21 @@ impl Registers {
      * Increment the program counter by `count`.
      */
     pub fn incr_pr(&mut self, count: u16) {
-        self.pc = self.pc.wrapping_add(count);
+        self.pc = self.pc.wrapping_add(count)
     }
 
     /**
      * Decrement the program counter by `count`.
      */
     pub fn decr_pr(&mut self, count: u16) {
-        self.pc = self.pc.wrapping_sub(count);
+        self.pc = self.pc.wrapping_sub(count)
     }
 
     /**
      * Set the current value of the program counter.
      */
     pub fn set_pc(&mut self, value: u16) {
-        self.pc = value;
+        self.pc = value
     }
 
     /**
@@ -117,21 +117,21 @@ impl Registers {
      * Increment the stack pointer by `count`.
      */
     pub fn incr_sp(&mut self, count: u8) {
-        self.sp = self.sp.wrapping_add(count);
+        self.sp = self.sp.wrapping_add(count)
     }
 
     /**
      * Decrement the stack pointer by `count`.
      */
     pub fn decr_sp(&mut self, count: u8) {
-        self.sp = self.sp.wrapping_sub(count);
+        self.sp = self.sp.wrapping_sub(count)
     }
 
     /**
      * Set the current value of the stack pointer.
      */
     pub fn set_sp(&mut self, value: u8) {
-        self.sp = value;
+        self.sp = value
     }
 
     /**
@@ -145,7 +145,7 @@ impl Registers {
      * Set the current value of the X index register.
      */
     pub fn set_x(&mut self, value: u8) {
-        self.x = value;
+        self.x = value
     }
 
     /**
@@ -159,7 +159,7 @@ impl Registers {
      * Set the current value of the Y index register.
      */
     pub fn set_y(&mut self, value: u8) {
-        self.y = value;
+        self.y = value
     }
 
     /**
@@ -173,7 +173,7 @@ impl Registers {
      * Set the current value of the accumulator.
      */
     pub fn set_a(&mut self, value: u8) {
-        self.a = value;
+        self.a = value
     }
 
     /**
@@ -187,7 +187,7 @@ impl Registers {
      * Set the current value of the processor status register.
      */
     pub fn set_p(&mut self, value: u8) {
-        self.p = value;
+        self.p = value
     }
 
     /**
@@ -196,7 +196,7 @@ impl Registers {
     pub fn p_bit(&self, ps_bit: ProcessorStatusBit) -> bool {
         let bit: u8 = ps_bit as u8;
         if bit > 7 {
-            panic!("Index out of bounds for processor status register");
+            panic!("Index out of bounds for processor status register")
         }
         (self.p & (1 << bit)) != 0
     }
@@ -207,12 +207,12 @@ impl Registers {
     pub fn set_p_bit(&mut self, ps_bit: ProcessorStatusBit, value: bool) {
         let bit: u8 = ps_bit as u8;
         if bit > 7 {
-            panic!("Index out of bounds for processor status register");
+            panic!("Index out of bounds for processor status register")
         }
         if value {
-            self.p |= 1 << bit;
+            self.p |= 1 << bit
         } else {
-            self.p &= !(1 << bit);
+            self.p &= !(1 << bit)
         }
     }
 
