@@ -1,5 +1,5 @@
 /**
-* The different process status bits that can be set in the processor status register.
+* The different processor status bits that can be set in the processor status register.
 */
 #[derive(Copy, Clone, Debug)]
 pub enum ProcessorStatusBit {

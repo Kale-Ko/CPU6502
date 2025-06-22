@@ -7,7 +7,7 @@ on:
     branches: [ "*" ]
 
 jobs:
-  test_build:
+  build_and_test:
     strategy:
       matrix:
         target:
