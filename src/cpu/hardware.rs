@@ -1,3 +1,5 @@
+pub mod empty;
+pub mod discard;
 pub mod bus;
 
 /**
@@ -55,35 +57,26 @@ pub trait Hardware {
 */
 pub trait AddressableHardware: Hardware {
     /**
-     * Gets the local page range of this piece of hardware.
-     *
-     * A local page is not the actual page a program would use to access this hardware, it is local to the hardware itself (should generally start at 0).
-     */
-    fn get_range(&self) -> (u8, u8);
-
-    /**
      * Reads a byte from the specified local address.
      *
-     * See `get_range()` for a note on local addresses.
+     * Local addresses start at 0 rather than the hardware offset.
      */
     fn read(&self, address: u16) -> Result<u8, HardwareError>;
 
     /**
      * Writes a byte to the specified local address.
      *
-     * See `get_range()` for a note on local addresses.
+     * Local addresses start at 0 rather than the hardware offset.
      */
     fn write(&mut self, address: u16, value: u8) -> Result<(), HardwareError>;
 }
 
 /**
-* Represents a piece of hardware that does absolutely nothing.
-*/
-#[derive(Debug)]
-pub struct EmptyHardware {}
-
-impl Hardware for EmptyHardware {
-    fn get_name(&self) -> &str {
-        "<Empty>"
-    }
+ * Represents a piece of hardware that can be addressed on the bus and is a fixed size.
+ */
+pub trait SizedAddressableHardware: AddressableHardware {
+    /**
+     * Get the size of this piece of hardware in pages.
+     */
+    fn get_size(&self) -> u8;
 }
