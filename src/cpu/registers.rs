@@ -47,7 +47,7 @@ pub enum ProcessorStatusBit {
 #[derive(Debug)]
 pub struct Registers {
     /**
-     * The 16 bit program counter.
+     * The 16-bit program counter.
      */
     pc: u16,
 
