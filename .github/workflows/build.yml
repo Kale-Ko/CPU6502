@@ -101,7 +101,7 @@ jobs:
         if: ${{ matrix.target.deb_arch }}
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgcc-9-dev-${{ matrix.target.deb_arch }}-cross
+          sudo apt-get install -y libgcc-9-dev-${{ matrix.target.deb_arch }}-cross libgcc-14-dev-${{ matrix.target.deb_arch }}-cross
 
       - name: Build
         run: |
