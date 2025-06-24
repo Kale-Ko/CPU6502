@@ -18,6 +18,7 @@ jobs:
           - os: ubuntu-latest
             toolchain: "x86_64-unknown-linux-gnu"
             target: "x86_64-unknown-linux-gnu"
+            deb_arch: "amd64"
 
           - os: ubuntu-latest
             toolchain: "x86_64-unknown-linux-gnu"
@@ -26,6 +27,7 @@ jobs:
           - os: ubuntu-latest
             toolchain: "x86_64-unknown-linux-gnu"
             target: "i686-unknown-linux-gnu"
+            deb_arch: "i386"
 
           - os: ubuntu-latest
             toolchain: "x86_64-unknown-linux-gnu"
@@ -34,6 +36,7 @@ jobs:
           - os: ubuntu-latest-arm
             toolchain: "aarch64-unknown-linux-gnu"
             target: "aarch64-unknown-linux-gnu"
+            deb_arch: "arm64"
 
           - os: ubuntu-latest-arm
             toolchain: "aarch64-unknown-linux-gnu"
@@ -42,10 +45,12 @@ jobs:
           - os: ubuntu-latest-arm
             toolchain: "aarch64-unknown-linux-gnu"
             target: "arm-unknown-linux-gnueabihf"
+            deb_arch: "armhf"
 
           - os: ubuntu-latest-arm
             toolchain: "aarch64-unknown-linux-gnu"
             target: "arm-unknown-linux-gnueabi"
+            deb_arch: "armel"
 
           - os: ubuntu-latest-arm
             toolchain: "aarch64-unknown-linux-gnu"
@@ -86,20 +91,22 @@ jobs:
         with:
           toolchain: ${{ matrix.toolchain_version }}-${{ matrix.target.toolchain }}
           target: ${{ matrix.target.target }}
-          components: rust-std, rustc, rustfmt, cargo, clippy
+          components: rustc, rustfmt, rust-std, rust-src, cargo, clippy
           rustflags: ""
           cache: true
           cache-on-failure: true
           matcher: true
 
-      - name: Install Cross
+      - name: Install libgcc
+        if: ${{ matrix.target.deb_arch }}
         run: |
-          cargo install cross
+          sudo apt-get update
+          sudo apt-get install -y libgcc-s1-${{ matrix.target.deb_arch }}-cross
 
       - name: Build
         run: |
-          cross build --target ${{ matrix.target.target }} --release
+          cargo build --target ${{ matrix.target.target }} --release
 
       - name: Test
         run: |
-          cross test --target ${{ matrix.target.target }} --release
+          cargo test --target ${{ matrix.target.target }} --release
