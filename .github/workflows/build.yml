@@ -92,14 +92,10 @@ jobs:
           cache-on-failure: true
           matcher: true
 
-      - name: Install Cross
-        run: |
-          cargo install cross
-
       - name: Build
         run: |
-          cross build --target ${{ matrix.target.target }} --release
+          cargo build --target ${{ matrix.target.target }} --release
 
       - name: Test
         run: |
-          cross test --target ${{ matrix.target.target }} --release
+          cargo test --target ${{ matrix.target.target }} --release
