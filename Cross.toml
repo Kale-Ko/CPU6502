@@ -1,3 +1,7 @@
 [build]
 build-std = true
 xargo = false
+
+pre-build = [
+    "readelf -Ws /lib/x86_64-linux-gnu/libc.so.6 | grep -oE '@@GLIBC_[0-9.]+' | sort -uV"
+]
