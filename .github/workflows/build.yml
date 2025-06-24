@@ -89,12 +89,12 @@ jobs:
           components: rust-std, rustc, rustfmt, cargo, clippy
           rustflags: ""
           cache: true
-          cache-on-failure: false
+          cache-on-failure: true
           matcher: true
 
       - name: Install Cross
         run: |
-          cargo install cross cargo-xbuild
+          cargo install cross
 
       - name: Build
         run: |

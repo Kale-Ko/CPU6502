@@ -1,0 +1,10 @@
+[build]
+build-std = true
+xargo = false
+zig = false
+
+pre-build = [
+    "dpkg --add-architecture $CROSS_DEB_ARCH",
+    "apt-get update",
+    "apt-get install -y libgcc-s1:$CROSS_DEB_ARCH"
+]
