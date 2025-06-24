@@ -104,6 +104,8 @@ jobs:
 
       - name: Build
         run: |
+          readelf -Ws /lib/x86_64-linux-gnu/libc.so.6 | grep -oE '@@GLIBC_[0-9.]+' | sort -uV
+          echo
           cross build --target ${{ matrix.target.target }} --release
 
       - name: Test
