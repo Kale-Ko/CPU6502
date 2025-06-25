@@ -31,10 +31,6 @@ jobs:
 
           - os: ubuntu-24.04
             toolchain: "x86_64-unknown-linux-gnu"
-            target: "x86_64-unknown-none"
-
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
             target: "i686-unknown-linux-gnu"
 
           - os: ubuntu-24.04
@@ -48,19 +44,11 @@ jobs:
 
           - os: ubuntu-24.04
             toolchain: "x86_64-unknown-linux-gnu"
-            target: "i686-unknown-none"
-
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
             target: "aarch64-unknown-linux-gnu"
 
           - os: ubuntu-24.04
             toolchain: "x86_64-unknown-linux-gnu"
             target: "aarch64-unknown-linux-musl"
-
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "aarch64-unknown-none"
 
           - os: ubuntu-24.04
             toolchain: "x86_64-unknown-linux-gnu"
@@ -78,24 +66,24 @@ jobs:
             toolchain: "x86_64-unknown-linux-gnu"
             target: "arm-unknown-linux-musleabi"
 
-          - os: windows-2025
-            toolchain: "x86_64-pc-windows-msvc"
+          - os: ubuntu-24.04
+            toolchain: "x86_64-unknown-linux-gnu"
             target: "x86_64-pc-windows-gnu"
 
-          - os: windows-2025
-            toolchain: "x86_64-pc-windows-msvc"
+          - os: ubuntu-24.04
+            toolchain: "x86_64-unknown-linux-gnu"
             target: "x86_64-pc-windows-gnullvm"
 
           - os: windows-2025
             toolchain: "x86_64-pc-windows-msvc"
             target: "x86_64-pc-windows-msvc"
 
-          - os: windows-2025
-            toolchain: "x86_64-pc-windows-msvc"
+          - os: ubuntu-24.04
+            toolchain: "x86_64-unknown-linux-gnu"
             target: "i686-pc-windows-gnu"
 
-          - os: windows-2025
-            toolchain: "x86_64-pc-windows-msvc"
+          - os: ubuntu-24.04
+            toolchain: "x86_64-unknown-linux-gnu"
             target: "i686-pc-windows-gnullvm"
 
           - os: windows-2025
