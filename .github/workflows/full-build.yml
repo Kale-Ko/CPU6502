@@ -1,0 +1,155 @@
+name: full-build.yml
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.repository_id }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  full_build_and_test:
+    strategy:
+      matrix:
+        target:
+          - os: ubuntu-24.04
+            toolchain: "x86_64-unknown-linux-gnu"
+            target: "x86_64-unknown-linux-gnu"
+
+          - os: ubuntu-24.04
+            toolchain: "x86_64-unknown-linux-gnu"
+            target: "x86_64-unknown-linux-musl"
+
+          - os: ubuntu-24.04
+            toolchain: "x86_64-unknown-linux-gnu"
+            target: "x86_64-unknown-freebsd"
+
+          - os: ubuntu-24.04
+            toolchain: "x86_64-unknown-linux-gnu"
+            target: "x86_64-unknown-netbsd"
+
+          - os: ubuntu-24.04
+            toolchain: "x86_64-unknown-linux-gnu"
+            target: "x86_64-unknown-none"
+
+          - os: ubuntu-24.04
+            toolchain: "x86_64-unknown-linux-gnu"
+            target: "i686-unknown-linux-gnu"
+
+          - os: ubuntu-24.04
+            toolchain: "x86_64-unknown-linux-gnu"
+            target: "i686-unknown-linux-musl"
+
+          - os: ubuntu-24.04
+            toolchain: "x86_64-unknown-linux-gnu"
+            target: "i686-unknown-freebsd"
+
+          - os: ubuntu-24.04
+            toolchain: "x86_64-unknown-linux-gnu"
+            target: "i686-unknown-none"
+
+          - os: ubuntu-24.04
+            toolchain: "x86_64-unknown-linux-gnu"
+            target: "aarch64-unknown-linux-gnu"
+
+          - os: ubuntu-24.04
+            toolchain: "x86_64-unknown-linux-gnu"
+            target: "aarch64-unknown-linux-musl"
+
+          - os: ubuntu-24.04
+            toolchain: "x86_64-unknown-linux-gnu"
+            target: "aarch64-unknown-none"
+
+          - os: ubuntu-24.04
+            toolchain: "x86_64-unknown-linux-gnu"
+            target: "arm-unknown-linux-gnueabihf"
+
+          - os: ubuntu-24.04
+            toolchain: "x86_64-unknown-linux-gnu"
+            target: "arm-unknown-linux-gnueabi"
+
+          - os: ubuntu-24.04
+            toolchain: "x86_64-unknown-linux-gnu"
+            target: "arm-unknown-linux-musleabihf"
+
+          - os: ubuntu-24.04
+            toolchain: "x86_64-unknown-linux-gnu"
+            target: "arm-unknown-linux-musleabi"
+
+          - os: windows-2025
+            toolchain: "x86_64-pc-windows-msvc"
+            target: "x86_64-pc-windows-gnu"
+
+          - os: windows-2025
+            toolchain: "x86_64-pc-windows-msvc"
+            target: "x86_64-pc-windows-gnullvm"
+
+          - os: windows-2025
+            toolchain: "x86_64-pc-windows-msvc"
+            target: "x86_64-pc-windows-msvc"
+
+          - os: windows-2025
+            toolchain: "x86_64-pc-windows-msvc"
+            target: "i686-pc-windows-gnu"
+
+          - os: windows-2025
+            toolchain: "x86_64-pc-windows-msvc"
+            target: "i686-pc-windows-gnullvm"
+
+          - os: windows-2025
+            toolchain: "x86_64-pc-windows-msvc"
+            target: "i686-pc-windows-msvc"
+
+          - os: windows-11-arm
+            toolchain: "aarch64-pc-windows-msvc"
+            target: "aarch64-pc-windows-gnu"
+
+          - os: windows-11-arm
+            toolchain: "aarch64-pc-windows-msvc"
+            target: "aarch64-pc-windows-gnullvm"
+
+          - os: windows-11-arm
+            toolchain: "aarch64-pc-windows-msvc"
+            target: "aarch64-pc-windows-msvc"
+
+        toolchain_version:
+          - "stable"
+          - "nightly"
+
+      fail-fast: false
+
+    name: Build & Test ${{ matrix.target.target }} (${{ matrix.toolchain_version }})
+    runs-on: ${{ matrix.target.os }}
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: ${{ matrix.toolchain_version }}-${{ matrix.target.toolchain }}
+          target: ${{ matrix.target.target }}
+          components: rustc, rustfmt, rust-std, rust-src, cargo, clippy
+          rustflags: ""
+          cache: true
+          cache-on-failure: true
+          matcher: true
+
+      - name: Install Cross
+        run: |
+          cargo install cross
+
+      - name: Configure Stable
+        if: ${{ matrix.toolchain_version != 'nightly' }}
+        run: |
+          sed -i "s/build-std = true/build-std = false/" Cross.toml
+
+      - name: Build
+        run: |
+          cross build --target ${{ matrix.target.target }} --release
+
+      - name: Test
+        run: |
+          cross test --target ${{ matrix.target.target }} --release
