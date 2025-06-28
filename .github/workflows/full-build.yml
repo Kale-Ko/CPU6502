@@ -1,6 +1,8 @@
 name: Full Build & Test
 
 on:
+  push:
+    tags: [ "*" ]
   workflow_dispatch:
 
 concurrency:
