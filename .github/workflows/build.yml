@@ -97,15 +97,16 @@ jobs:
         run: |
           cargo install cross
 
-      - name: Configure Stable
-        if: ${{ matrix.toolchain_version != 'nightly' }}
+      - name: Configure Nightly
+        if: ${{ matrix.toolchain_version == 'nightly' }}
         run: |
-          sed -i "s/build-std = true/build-std = false/" Cross.toml
+          sed -i "s/build-std = false/build-std = true/" Cross.toml
 
       - name: Build
         run: |
           cross build --target ${{ matrix.target.target }} --release
 
       - name: Test
+        if: ${{ !matrix.target.no_test }}
         run: |
           cross test --target ${{ matrix.target.target }} --release
