@@ -63,8 +63,8 @@ jobs:
             toolchain: "x86_64-pc-windows-msvc"
             target: "i686-pc-windows-msvc"
 
-          - os: windows-2025
-            toolchain: "x86_64-pc-windows-msvc"
+          - os: windows-11-arm
+            toolchain: "aarch64-pc-windows-msvc"
             target: "aarch64-pc-windows-msvc"
 
         toolchain_version:
