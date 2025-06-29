@@ -14,92 +14,72 @@ jobs:
     strategy:
       matrix:
         target:
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "x86_64-unknown-linux-gnu"
+          - target: "x86_64-unknown-linux-gnu"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "x86_64-unknown-linux-musl"
+          - target: "x86_64-unknown-linux-musl"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "x86_64-unknown-freebsd"
+          - target: "x86_64-linux-android"
+
+          - target: "x86_64-unknown-freebsd"
             no_test: true
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "x86_64-unknown-netbsd"
+          - target: "x86_64-unknown-netbsd"
             no_test: true
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "i686-unknown-linux-gnu"
+          - target: "i686-unknown-linux-gnu"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "i686-unknown-linux-musl"
+          - target: "i686-unknown-linux-musl"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "i686-unknown-freebsd"
+          - target: "i686-linux-android"
+
+          - target: "i686-unknown-freebsd"
             no_test: true
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "aarch64-unknown-linux-gnu"
+          - target: "aarch64-unknown-linux-gnu"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "aarch64-unknown-linux-musl"
+          - target: "aarch64-unknown-linux-musl"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "arm-unknown-linux-gnueabihf"
+          - target: "aarch64-linux-android"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "arm-unknown-linux-gnueabi"
+          - target: "arm-unknown-linux-gnueabihf"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "arm-unknown-linux-musleabihf"
+          - target: "arm-unknown-linux-gnueabi"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "arm-unknown-linux-musleabi"
+          - target: "arm-unknown-linux-musleabihf"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "x86_64-pc-windows-gnu"
+          - target: "arm-unknown-linux-musleabi"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "x86_64-pc-windows-gnullvm"
+          - target: "arm-linux-androideabi"
+
+          - target: "x86_64-pc-windows-gnu"
+
+          - target: "x86_64-pc-windows-gnullvm"
 
           - os: windows-2025
             toolchain: "x86_64-pc-windows-msvc"
             target: "x86_64-pc-windows-msvc"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "i686-pc-windows-gnu"
+          - target: "i686-pc-windows-gnu"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "i686-pc-windows-gnullvm"
+          - target: "i686-pc-windows-gnullvm"
 
           - os: windows-2025
             toolchain: "x86_64-pc-windows-msvc"
             target: "i686-pc-windows-msvc"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "aarch64-pc-windows-gnullvm"
+          - target: "aarch64-pc-windows-gnullvm"
 
           - os: windows-11-arm
             toolchain: "aarch64-pc-windows-msvc"
             target: "aarch64-pc-windows-msvc"
+
+          - os: macos-15
+            toolchain: "aarch64-apple-darwin"
+            target: "x86_64-apple-darwin"
+
+          - os: macos-15
+            toolchain: "aarch64-apple-darwin"
+            target: "aarch64-apple-darwin"
 
         toolchain_version:
           - "stable"
@@ -108,7 +88,7 @@ jobs:
       fail-fast: false
 
     name: Build & Test ${{ matrix.target.target }} (${{ matrix.toolchain_version }})
-    runs-on: ${{ matrix.target.os }}
+    runs-on: ${{ matrix.target.os || 'ubuntu-24.04' }}
     permissions:
       contents: read
 
@@ -119,7 +99,7 @@ jobs:
       - name: Setup Toolchain
         uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
-          toolchain: ${{ matrix.toolchain_version }}-${{ matrix.target.toolchain }}
+          toolchain: ${{ matrix.toolchain_version }}-${{ matrix.target.toolchain || 'x86_64-unknown-linux-gnu' }}
           target: ${{ matrix.target.target }}
           components: rustc, rustfmt, rust-std, rust-src, cargo, clippy
           rustflags: ""

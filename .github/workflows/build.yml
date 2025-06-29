@@ -15,45 +15,25 @@ jobs:
     strategy:
       matrix:
         target:
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "x86_64-unknown-linux-gnu"
+          - target: "x86_64-unknown-linux-gnu"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "x86_64-unknown-linux-musl"
+          - target: "x86_64-unknown-linux-musl"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "i686-unknown-linux-gnu"
+          - target: "i686-unknown-linux-gnu"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "i686-unknown-linux-musl"
+          - target: "i686-unknown-linux-musl"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "aarch64-unknown-linux-gnu"
+          - target: "aarch64-unknown-linux-gnu"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "aarch64-unknown-linux-musl"
+          - target: "aarch64-unknown-linux-musl"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "arm-unknown-linux-gnueabihf"
+          - target: "arm-unknown-linux-gnueabihf"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "arm-unknown-linux-gnueabi"
+          - target: "arm-unknown-linux-gnueabi"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "arm-unknown-linux-musleabihf"
+          - target: "arm-unknown-linux-musleabihf"
 
-          - os: ubuntu-24.04
-            toolchain: "x86_64-unknown-linux-gnu"
-            target: "arm-unknown-linux-musleabi"
+          - target: "arm-unknown-linux-musleabi"
 
           - os: windows-2025
             toolchain: "x86_64-pc-windows-msvc"
@@ -74,7 +54,7 @@ jobs:
       fail-fast: false
 
     name: Build & Test ${{ matrix.target.target }} (${{ matrix.toolchain_version }})
-    runs-on: ${{ matrix.target.os }}
+    runs-on: ${{ matrix.target.os || 'ubuntu-24.04' }}
     permissions:
       contents: read
 
@@ -85,7 +65,7 @@ jobs:
       - name: Setup Toolchain
         uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
-          toolchain: ${{ matrix.toolchain_version }}-${{ matrix.target.toolchain }}
+          toolchain: ${{ matrix.toolchain_version }}-${{ matrix.target.toolchain || 'x86_64-unknown-linux-gnu' }}
           target: ${{ matrix.target.target }}
           components: rustc, rustfmt, rust-std, rust-src, cargo, clippy
           rustflags: ""
