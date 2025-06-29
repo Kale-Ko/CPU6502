@@ -103,26 +103,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install Dependencies (Android)
-        if: ${{ matrix.target.android }}
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libunwind-19 libunwind-19-dev android-libunwind android-libunwind-dev
-
-      - name: Install Wine
-        if: ${{ matrix.target.wine }}
-        run: |
-          sudo dpkg --add-architecture amd64
-          sudo dpkg --add-architecture i386
-          
-          sudo mkdir -pm755 /etc/apt/keyrings
-          wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -  
-          
-          sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/noble/winehq-noble.sources
-          
-          sudo apt-get update
-          sudo apt-get install --install-recommends -y winehq-stable
-
       - name: Setup Toolchain
         uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
