@@ -114,7 +114,7 @@ jobs:
       - name: Configure Nightly
         if: ${{ matrix.toolchain_version == 'nightly' }}
         run: |
-          sed -i "s/build-std = false/build-std = true/" Cross.toml
+          sed -i'' 's/build-std = false/build-std = true/g' Cross.toml
 
       - name: Build
         run: |

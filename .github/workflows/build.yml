@@ -19,33 +19,21 @@ jobs:
 
           - target: "x86_64-unknown-linux-musl"
 
-          - target: "i686-unknown-linux-gnu"
-
-          - target: "i686-unknown-linux-musl"
-
           - target: "aarch64-unknown-linux-gnu"
 
           - target: "aarch64-unknown-linux-musl"
-
-          - target: "arm-unknown-linux-gnueabihf"
-
-          - target: "arm-unknown-linux-gnueabi"
-
-          - target: "arm-unknown-linux-musleabihf"
-
-          - target: "arm-unknown-linux-musleabi"
 
           - os: windows-2025
             toolchain: "x86_64-pc-windows-msvc"
             target: "x86_64-pc-windows-msvc"
 
-          - os: windows-2025
-            toolchain: "x86_64-pc-windows-msvc"
-            target: "i686-pc-windows-msvc"
-
           - os: windows-11-arm
             toolchain: "aarch64-pc-windows-msvc"
             target: "aarch64-pc-windows-msvc"
+
+          - os: macos-15
+            toolchain: "aarch64-apple-darwin"
+            target: "aarch64-apple-darwin"
 
         toolchain_version:
           - "stable"
@@ -80,7 +68,7 @@ jobs:
       - name: Configure Nightly
         if: ${{ matrix.toolchain_version == 'nightly' }}
         run: |
-          sed -i "s/build-std = false/build-std = true/" Cross.toml
+          sed -i'' 's/build-std = false/build-std = true/g' Cross.toml
 
       - name: Build
         run: |
