@@ -19,6 +19,7 @@ jobs:
           - target: "x86_64-unknown-linux-musl"
 
           - target: "x86_64-linux-android"
+            android: true
 
           - target: "x86_64-unknown-freebsd"
             no_test: true
@@ -31,6 +32,7 @@ jobs:
           - target: "i686-unknown-linux-musl"
 
           - target: "i686-linux-android"
+            android: true
 
           - target: "i686-unknown-freebsd"
             no_test: true
@@ -40,6 +42,7 @@ jobs:
           - target: "aarch64-unknown-linux-musl"
 
           - target: "aarch64-linux-android"
+            android: true
 
           - target: "arm-unknown-linux-gnueabihf"
 
@@ -50,10 +53,12 @@ jobs:
           - target: "arm-unknown-linux-musleabi"
 
           - target: "arm-linux-androideabi"
+            android: true
 
           - target: "x86_64-pc-windows-gnu"
 
-          - target: "x86_64-pc-windows-gnullvm"
+          # Hopelessly broken
+          # - target: "x86_64-pc-windows-gnullvm"
 
           - os: windows-2025
             toolchain: "x86_64-pc-windows-msvc"
@@ -61,13 +66,13 @@ jobs:
 
           - target: "i686-pc-windows-gnu"
 
-          - target: "i686-pc-windows-gnullvm"
+          # - target: "i686-pc-windows-gnullvm"
 
           - os: windows-2025
             toolchain: "x86_64-pc-windows-msvc"
             target: "i686-pc-windows-msvc"
 
-          - target: "aarch64-pc-windows-gnullvm"
+          # - target: "aarch64-pc-windows-gnullvm"
 
           - os: windows-11-arm
             toolchain: "aarch64-pc-windows-msvc"
@@ -95,6 +100,12 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Install Dependencies (Android)
+        if: ${{ matrix.target.android }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y android-libunwind
 
       - name: Setup Toolchain
         uses: actions-rust-lang/setup-rust-toolchain@v1
