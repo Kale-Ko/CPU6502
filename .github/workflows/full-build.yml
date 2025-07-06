@@ -18,6 +18,9 @@ jobs:
 
           - target: "x86_64-unknown-linux-musl"
 
+          # Not supported yet
+          # - target: "x86_64-unknown-linux-ohos"
+
           - target: "x86_64-linux-android"
 
           - target: "x86_64-unknown-freebsd"
@@ -39,6 +42,9 @@ jobs:
 
           - target: "aarch64-unknown-linux-musl"
 
+          # Not supported yet
+          # - target: "aarch64-unknown-linux-ohos"
+
           - target: "aarch64-linux-android"
 
           - target: "armv7-unknown-linux-gnueabihf"
@@ -49,7 +55,25 @@ jobs:
 
           - target: "armv7-unknown-linux-musleabi"
 
+          # Not supported yet
+          # - target: "armv7-unknown-linux-ohos"
+
           - target: "armv7-linux-androideabi"
+
+          # Not supported yet
+          # - target: "arm-unknown-linux-gnueabihf"
+
+          - target: "arm-unknown-linux-gnueabi"
+
+          - target: "arm-unknown-linux-musleabihf"
+
+          - target: "arm-unknown-linux-musleabi"
+
+          - target: "arm-linux-androideabi"
+
+          - target: "riscv64gc-unknown-linux-gnu"
+
+          - target: "riscv64gc-unknown-linux-musl"
 
           - target: "x86_64-pc-windows-gnu"
 
@@ -72,6 +96,10 @@ jobs:
           - os: windows-11-arm
             toolchain: "aarch64-pc-windows-msvc"
             target: "aarch64-pc-windows-msvc"
+
+          - os: windows-11-arm
+            toolchain: "aarch64-pc-windows-msvc"
+            target: "arm64ec-pc-windows-msvc"
 
           - os: macos-15
             toolchain: "aarch64-apple-darwin"
