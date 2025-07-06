@@ -1,17 +1,16 @@
-name: Build & Test
+name: Full Build & Test
 
 on:
   push:
-    branches: [ "*" ]
-  pull_request:
-    branches: [ "*" ]
+    tags: [ "*" ]
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.repository_id }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build_and_test:
+  full_build_and_test:
     strategy:
       matrix:
         target:
@@ -19,17 +18,64 @@ jobs:
 
           - target: "x86_64-unknown-linux-musl"
 
+          - target: "x86_64-linux-android"
+
+          - target: "x86_64-unknown-freebsd"
+            no_test: true
+
+          - target: "x86_64-unknown-netbsd"
+            no_test: true
+
+          - target: "i686-unknown-linux-gnu"
+
+          - target: "i686-unknown-linux-musl"
+
+          - target: "i686-linux-android"
+
+          - target: "i686-unknown-freebsd"
+            no_test: true
+
           - target: "aarch64-unknown-linux-gnu"
 
           - target: "aarch64-unknown-linux-musl"
+
+          - target: "aarch64-linux-android"
+
+          - target: "armv7-unknown-linux-gnueabihf"
+
+          - target: "armv7-unknown-linux-gnueabi"
+
+          - target: "armv7-unknown-linux-musleabihf"
+
+          - target: "armv7-unknown-linux-musleabi"
+
+          - target: "armv7-linux-androideabi"
+
+          - target: "x86_64-pc-windows-gnu"
+
+          - target: "x86_64-pc-windows-gnullvm"
 
           - os: windows-2025
             toolchain: "x86_64-pc-windows-msvc"
             target: "x86_64-pc-windows-msvc"
 
+          - target: "i686-pc-windows-gnu"
+
+          - target: "i686-pc-windows-gnullvm"
+
+          - os: windows-2025
+            toolchain: "x86_64-pc-windows-msvc"
+            target: "i686-pc-windows-msvc"
+
+          - target: "aarch64-pc-windows-gnullvm"
+
           - os: windows-11-arm
             toolchain: "aarch64-pc-windows-msvc"
             target: "aarch64-pc-windows-msvc"
+
+          - os: macos-15
+            toolchain: "aarch64-apple-darwin"
+            target: "x86_64-apple-darwin"
 
           - os: macos-15
             toolchain: "aarch64-apple-darwin"

@@ -1,5 +1,5 @@
 [package]
-name = "CPU6502"
+name = "cpu6502"
 version = "0.1.0"
 edition = "2024"
 
