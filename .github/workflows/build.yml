@@ -60,7 +60,7 @@ jobs:
 
       - name: Install Rust
         run: |
-          rustup toolchain install ${{ matrix.toolchain_version || 'stable' }}-${{ matrix.target.toolchain || 'x86_64-unknown-linux-gnu' }} --profile default --allow-downgrade
+          rustup toolchain install ${{ matrix.toolchain_version || 'stable' }}-${{ matrix.target.toolchain || 'x86_64-unknown-linux-gnu' }} --profile default --component rustc,cargo,rust-std,rust-src --allow-downgrade
           rustup default ${{ matrix.toolchain_version || 'stable' }}-${{ matrix.target.toolchain || 'x86_64-unknown-linux-gnu' }}
 
       - name: Install cross-toolchain
