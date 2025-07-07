@@ -69,8 +69,14 @@ jobs:
           target: ${{ matrix.target.target }}
 
       - name: Build
+        if: ${{ matrix.toolchain_version != 'nightly' }}
         run: |
           cargo build --target ${{ matrix.target.target }} --release
+
+      - name: Build Nightly
+        if: ${{ matrix.toolchain_version == 'nightly' }}
+        run: |
+          cargo build --target ${{ matrix.target.target }} --release -Z build-std
 
       - name: Test
         if: ${{ !matrix.target.no_test }}
