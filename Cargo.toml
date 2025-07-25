@@ -1,7 +1,25 @@
 [package]
 name = "cpu6502"
 version = "0.1.0"
+description = "A computer emulator based around the 65C02 CPU."
+keywords = ["simulation", "emulator", "6502", "cpu", "computer"]
+categories = ["simulation", "emulators", "virtualization", "mathematics"]
+authors = [
+    "Kale Ko <contact@kaleko.dev>"
+]
+
+repository = "https://github.com/Kale-Ko/CPU6502"
+readme = "README.md"
+license = "MIT"
+
+exclude = [".*"]
+
 edition = "2024"
 
+[badges]
+maintenance = { status = "experimental" }
+
+[lints.rust]
+unused = "allow"
+
 [dependencies]
-rand = "0.9.1"
