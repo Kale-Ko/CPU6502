@@ -6,6 +6,15 @@ use super::Hardware;
 #[derive(Debug)]
 pub struct EmptyHardware {}
 
+impl EmptyHardware {
+    /**
+     * Create a new EmptyHardware.
+     */
+    pub fn new() -> EmptyHardware {
+        EmptyHardware {}
+    }
+}
+
 impl Hardware for EmptyHardware {
     fn get_name(&self) -> &str {
         "<Empty>"

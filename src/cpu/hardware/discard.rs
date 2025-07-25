@@ -6,6 +6,15 @@ use super::{AddressableHardware, Hardware, HardwareError};
 #[derive(Debug)]
 pub struct DiscardHardware {}
 
+impl DiscardHardware {
+    /**
+     * Create a new DiscardHardware.
+     */
+    pub fn new() -> DiscardHardware {
+        DiscardHardware {}
+    }
+}
+
 impl Hardware for DiscardHardware {
     fn get_name(&self) -> &str {
         "Discard Device"
