@@ -30,7 +30,7 @@ impl HardwareError {
     /**
      * Get the message describing this error.
      */
-    pub fn message(&self) -> &String {
+    pub fn message(&self) -> &str {
         &self.message
     }
 
