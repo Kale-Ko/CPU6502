@@ -1,0 +1,36 @@
+name: Check Format
+
+on:
+  push:
+    branches: [ "*" ]
+    tags: [ "v*" ]
+  pull_request:
+    branches: [ "*" ]
+
+jobs:
+  check_format:
+    strategy:
+      matrix:
+        toolchain_version:
+          - "stable"
+          - "nightly"
+
+      fail-fast: true
+
+    name: Check Format (${{ matrix.toolchain_version || 'stable' }})
+    runs-on: 'ubuntu-24.04'
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Rust
+        run: |
+          rustup toolchain install ${{ matrix.toolchain_version || 'stable' }} --profile default --component rustc,cargo,rust-std,rust-src,rust-fmt --allow-downgrade
+          rustup default ${{ matrix.toolchain_version || 'stable' }}
+
+      - name: Check Format
+        run: |
+          cargo fmt --all --check
