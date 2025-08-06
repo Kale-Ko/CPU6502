@@ -16,7 +16,7 @@ impl EmptyHardware {
 }
 
 impl Hardware for EmptyHardware {
-    fn get_name(&self) -> &str {
+    fn name(&self) -> &str {
         "<Empty>"
     }
 }

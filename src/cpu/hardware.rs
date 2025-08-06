@@ -49,7 +49,23 @@ pub trait Hardware {
     /**
      * Get the name of this piece of hardware.
      */
-    fn get_name(&self) -> &str;
+    fn name(&self) -> &str;
+
+    fn as_addressable(&self) -> Option<&dyn AddressableHardware> {
+        None
+    }
+
+    fn as_addressable_mut(&mut self) -> Option<&mut dyn AddressableHardware> {
+        None
+    }
+
+    fn as_sized_addressable(&self) -> Option<&dyn SizedAddressableHardware> {
+        None
+    }
+
+    fn as_sized_addressable_mut(&mut self) -> Option<&mut dyn SizedAddressableHardware> {
+        None
+    }
 }
 
 /**
@@ -78,5 +94,5 @@ pub trait SizedAddressableHardware: AddressableHardware {
     /**
      * Get the size of this piece of hardware in pages.
      */
-    fn get_size(&self) -> u8;
+    fn size(&self) -> u8;
 }

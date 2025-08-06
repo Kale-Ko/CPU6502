@@ -16,8 +16,16 @@ impl DiscardHardware {
 }
 
 impl Hardware for DiscardHardware {
-    fn get_name(&self) -> &str {
+    fn name(&self) -> &str {
         "Discard Device"
+    }
+
+    fn as_addressable(&self) -> Option<&dyn AddressableHardware> {
+        Some(self)
+    }
+
+    fn as_addressable_mut(&mut self) -> Option<&mut dyn AddressableHardware> {
+        Some(self)
     }
 }
 
