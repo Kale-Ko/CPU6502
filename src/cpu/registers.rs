@@ -24,7 +24,7 @@ pub enum ProcessorStatusBit {
     DecimalMode = 3,
 
     /**
-     * Break command flag, set if the last operation was a break command. // TODO Check this
+     * Break command flag, set if the last operation was a break command. // TODO Check what this means.
      */
     BreakCommand = 4,
 
@@ -117,14 +117,14 @@ impl Registers {
      * Increment the stack pointer by `count`.
      */
     pub fn incr_sp(&mut self, count: u8) -> () {
-        self.sp = self.sp.wrapping_add(count)
+        self.sp = self.sp.wrapping_add(count) // TODO This may be meant to not wrap around.
     }
 
     /**
      * Decrement the stack pointer by `count`.
      */
     pub fn decr_sp(&mut self, count: u8) -> () {
-        self.sp = self.sp.wrapping_sub(count)
+        self.sp = self.sp.wrapping_sub(count) // TODO This may be meant to not wrap around.
     }
 
     /**

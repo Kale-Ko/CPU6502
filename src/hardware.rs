@@ -1,6 +1,5 @@
 pub mod empty;
 pub mod discard;
-pub mod bus;
 
 /**
 * A hardware error that may or may not be fatal.
