@@ -246,33 +246,49 @@ impl Registers {
 * Test all the simple methods on the Registers struct.
 */
 #[test]
-fn test_registers() {
+fn test() {
     let mut registers = Registers::new();
 
-    assert_eq!(registers.pc(), 0);
-    assert_eq!(registers.sp(), 0);
-    assert_eq!(registers.x(), 0);
-    assert_eq!(registers.y(), 0);
-    assert_eq!(registers.a(), 0);
-    assert_eq!(registers.p(), 0);
+    assert_eq!(
+        registers.pc(),
+        0,
+        "Program counter should be initialized to 0"
+    );
+    assert_eq!(
+        registers.sp(),
+        0,
+        "Stack pointer should be initialized to 0"
+    );
+    assert_eq!(registers.x(), 0, "X register should be initialized to 0");
+    assert_eq!(registers.y(), 0, "Y register should be initialized to 0");
+    assert_eq!(registers.a(), 0, "A register should be initialized to 0");
+    assert_eq!(
+        registers.p(),
+        0,
+        "Processor status register should be initialized to 0"
+    );
 
     registers.set_pc(0x00FA);
-    assert_eq!(registers.pc(), 0x00FA);
+    assert_eq!(registers.pc(), 0x00FA, "Program counter should be set");
 
     registers.set_sp(0xFF);
-    assert_eq!(registers.sp(), 0xFF);
+    assert_eq!(registers.sp(), 0xFF, "Stack pointer should be set");
 
     registers.set_a(0xF1);
-    assert_eq!(registers.a(), 0xF1);
+    assert_eq!(registers.a(), 0xF1, "A register should be set");
 
     registers.set_x(0x12);
-    assert_eq!(registers.x(), 0x12);
+    assert_eq!(registers.x(), 0x12, "X register should be set");
 
     registers.set_y(0x34);
-    assert_eq!(registers.y(), 0x34);
+    assert_eq!(registers.y(), 0x34, "Y register should be set");
 
     registers.set_p(0b10101010);
-    assert_eq!(registers.p(), 0b10101010);
+    assert_eq!(
+        registers.p(),
+        0b10101010,
+        "Processor status register should be set"
+    );
 }
 
 /**
@@ -282,25 +298,45 @@ fn test_registers() {
 fn test_pc() {
     let mut registers = Registers::new();
 
-    assert_eq!(registers.pc(), 0);
+    assert_eq!(
+        registers.pc(),
+        0,
+        "Program counter should be initialized to 0"
+    );
 
     registers.set_pc(0x1234);
-    assert_eq!(registers.pc(), 0x1234);
+    assert_eq!(registers.pc(), 0x1234, "Program counter should be set");
 
     registers.incr_pr(0x0010);
-    assert_eq!(registers.pc(), 0x1244);
+    assert_eq!(
+        registers.pc(),
+        0x1244,
+        "Program counter should be incremented"
+    );
 
     registers.decr_pr(0x0002);
-    assert_eq!(registers.pc(), 0x1242);
+    assert_eq!(
+        registers.pc(),
+        0x1242,
+        "Program counter should be decremented"
+    );
 
     registers.set_pc(0xFFFF);
-    assert_eq!(registers.pc(), 0xFFFF);
+    assert_eq!(registers.pc(), 0xFFFF, "Program counter should be set");
 
     registers.incr_pr(0x0001); // TODO See #incr_pr
-    assert_eq!(registers.pc(), 0x0000);
+    assert_eq!(
+        registers.pc(),
+        0x0000,
+        "Program counter should wrap around after incrementing"
+    );
 
     registers.decr_pr(0x0005); // TODO See #decr_pr
-    assert_eq!(registers.pc(), 0xFFFB);
+    assert_eq!(
+        registers.pc(),
+        0xFFFB,
+        "Program counter should wrap around after decrementing"
+    );
 }
 
 /**
@@ -310,25 +346,37 @@ fn test_pc() {
 fn test_sp() {
     let mut registers = Registers::new();
 
-    assert_eq!(registers.sp(), 0);
+    assert_eq!(
+        registers.sp(),
+        0,
+        "Stack pointer should be initialized to 0"
+    );
 
     registers.set_sp(0x80);
-    assert_eq!(registers.sp(), 0x80);
+    assert_eq!(registers.sp(), 0x80, "Stack pointer should be set");
 
     registers.incr_sp(0x10);
-    assert_eq!(registers.sp(), 0x90);
+    assert_eq!(registers.sp(), 0x90, "Stack pointer should be incremented");
 
     registers.decr_sp(0x20);
-    assert_eq!(registers.sp(), 0x70);
+    assert_eq!(registers.sp(), 0x70, "Stack pointer should be decremented");
 
     registers.set_sp(0x00);
-    assert_eq!(registers.sp(), 0x00);
+    assert_eq!(registers.sp(), 0x00, "Stack pointer should be set");
 
     registers.decr_sp(0x02); // TODO See #decr_sp
-    assert_eq!(registers.sp(), 0xFE);
+    assert_eq!(
+        registers.sp(),
+        0xFE,
+        "Stack pointer should wrap around after decrementing"
+    );
 
     registers.incr_sp(0x05); // TODO See #incr_sp
-    assert_eq!(registers.sp(), 0x03);
+    assert_eq!(
+        registers.sp(),
+        0x03,
+        "Stack pointer should wrap around after incrementing"
+    );
 }
 
 /**
@@ -338,24 +386,40 @@ fn test_sp() {
 fn test_p() {
     let mut registers = Registers::new();
 
-    assert_eq!(registers.p(), 0);
+    assert_eq!(
+        registers.p(),
+        0,
+        "Processor status register should be initialized to 0"
+    );
 
     registers.set_p(0b00001111);
-    assert_eq!(registers.p(), 0b00001111);
+    assert_eq!(
+        registers.p(),
+        0b00001111,
+        "Processor status register should be set"
+    );
 
     registers.set_p_bit(ProcessorStatusBit::Negative, true);
     assert!(registers.p_bit(ProcessorStatusBit::Negative));
-    assert_eq!(registers.p(), 0b10001111);
+    assert_eq!(registers.p(), 0b10001111, "Negative bit should be set");
 
     registers.set_p_bit(ProcessorStatusBit::Carry, false);
     assert!(!registers.p_bit(ProcessorStatusBit::Carry));
-    assert_eq!(registers.p(), 0b10001110);
+    assert_eq!(registers.p(), 0b10001110, "Carry bit should be cleared");
 
     registers.toggle_p_bit(ProcessorStatusBit::InterruptDisable);
     assert!(!registers.p_bit(ProcessorStatusBit::InterruptDisable));
-    assert_eq!(registers.p(), 0b10001010);
+    assert_eq!(
+        registers.p(),
+        0b10001010,
+        "Interrupt disable bit should be toggled off"
+    );
 
     registers.toggle_p_bit(ProcessorStatusBit::InterruptDisable);
     assert!(registers.p_bit(ProcessorStatusBit::InterruptDisable));
-    assert_eq!(registers.p(), 0b10001110);
+    assert_eq!(
+        registers.p(),
+        0b10001110,
+        "Interrupt disable bit should be toggled on"
+    );
 }
