@@ -247,7 +247,7 @@ impl Registers {
 */
 #[test]
 fn test() {
-    let mut registers = Registers::new();
+    let mut registers: Registers = Registers::new();
 
     assert_eq!(
         registers.pc(),
@@ -296,7 +296,7 @@ fn test() {
 */
 #[test]
 fn test_pc() {
-    let mut registers = Registers::new();
+    let mut registers: Registers = Registers::new();
 
     assert_eq!(
         registers.pc(),
@@ -344,7 +344,7 @@ fn test_pc() {
 */
 #[test]
 fn test_sp() {
-    let mut registers = Registers::new();
+    let mut registers: Registers = Registers::new();
 
     assert_eq!(
         registers.sp(),
@@ -384,7 +384,7 @@ fn test_sp() {
 */
 #[test]
 fn test_p() {
-    let mut registers = Registers::new();
+    let mut registers: Registers = Registers::new();
 
     assert_eq!(
         registers.p(),

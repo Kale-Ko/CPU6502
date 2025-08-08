@@ -20,3 +20,28 @@ impl Hardware for EmptyHardware {
         "<Empty>"
     }
 }
+
+/**
+* Test the EmptyHardware implementation.
+*/
+#[test]
+fn test() {
+    let mut empty: EmptyHardware = EmptyHardware::new();
+
+    assert!(
+        empty.as_addressable().is_none(),
+        "EmptyHardware should not be addressable"
+    );
+    assert!(
+        empty.as_addressable_mut().is_none(),
+        "EmptyHardware should not be addressable"
+    );
+    assert!(
+        empty.as_sized_addressable().is_none(),
+        "EmptyHardware should not be sized"
+    );
+    assert!(
+        empty.as_sized_addressable_mut().is_none(),
+        "EmptyHardware should not be sized"
+    );
+}
