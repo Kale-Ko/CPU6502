@@ -44,7 +44,7 @@ pub enum ProcessorStatusBit {
 /**
  * Representation of a CPU's registers with methods for common manipulations.
  */
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct Registers {
     /**
      * The 16-bit program counter.
@@ -240,4 +240,122 @@ impl Registers {
             p: 0,
         }
     }
+}
+
+/**
+* Test all the simple methods on the Registers struct.
+*/
+#[test]
+fn test_registers() {
+    let mut registers = Registers::new();
+
+    assert_eq!(registers.pc(), 0);
+    assert_eq!(registers.sp(), 0);
+    assert_eq!(registers.x(), 0);
+    assert_eq!(registers.y(), 0);
+    assert_eq!(registers.a(), 0);
+    assert_eq!(registers.p(), 0);
+
+    registers.set_pc(0x00FA);
+    assert_eq!(registers.pc(), 0x00FA);
+
+    registers.set_sp(0xFF);
+    assert_eq!(registers.sp(), 0xFF);
+
+    registers.set_a(0xF1);
+    assert_eq!(registers.a(), 0xF1);
+
+    registers.set_x(0x12);
+    assert_eq!(registers.x(), 0x12);
+
+    registers.set_y(0x34);
+    assert_eq!(registers.y(), 0x34);
+
+    registers.set_p(0b10101010);
+    assert_eq!(registers.p(), 0b10101010);
+}
+
+/**
+* Test all the program counter specific methods on the Registers struct.
+*/
+#[test]
+fn test_pc() {
+    let mut registers = Registers::new();
+
+    assert_eq!(registers.pc(), 0);
+
+    registers.set_pc(0x1234);
+    assert_eq!(registers.pc(), 0x1234);
+
+    registers.incr_pr(0x0010);
+    assert_eq!(registers.pc(), 0x1244);
+
+    registers.decr_pr(0x0002);
+    assert_eq!(registers.pc(), 0x1242);
+
+    registers.set_pc(0xFFFF);
+    assert_eq!(registers.pc(), 0xFFFF);
+
+    registers.incr_pr(0x0001); // TODO See #incr_pr
+    assert_eq!(registers.pc(), 0x0000);
+
+    registers.decr_pr(0x0005); // TODO See #decr_pr
+    assert_eq!(registers.pc(), 0xFFFB);
+}
+
+/**
+* Test all the stack pointer specific methods on the Registers struct.
+*/
+#[test]
+fn test_sp() {
+    let mut registers = Registers::new();
+
+    assert_eq!(registers.sp(), 0);
+
+    registers.set_sp(0x80);
+    assert_eq!(registers.sp(), 0x80);
+
+    registers.incr_sp(0x10);
+    assert_eq!(registers.sp(), 0x90);
+
+    registers.decr_sp(0x20);
+    assert_eq!(registers.sp(), 0x70);
+
+    registers.set_sp(0x00);
+    assert_eq!(registers.sp(), 0x00);
+
+    registers.decr_sp(0x02); // TODO See #decr_sp
+    assert_eq!(registers.sp(), 0xFE);
+
+    registers.incr_sp(0x05); // TODO See #incr_sp
+    assert_eq!(registers.sp(), 0x03);
+}
+
+/**
+* Test all the processor status register specific methods on the Registers struct.
+*/
+#[test]
+fn test_p() {
+    let mut registers = Registers::new();
+
+    assert_eq!(registers.p(), 0);
+
+    registers.set_p(0b00001111);
+    assert_eq!(registers.p(), 0b00001111);
+
+    registers.set_p_bit(ProcessorStatusBit::Negative, true);
+    assert!(registers.p_bit(ProcessorStatusBit::Negative));
+    assert_eq!(registers.p(), 0b10001111);
+
+    registers.set_p_bit(ProcessorStatusBit::Carry, false);
+    assert!(!registers.p_bit(ProcessorStatusBit::Carry));
+    assert_eq!(registers.p(), 0b10001110);
+
+    registers.toggle_p_bit(ProcessorStatusBit::InterruptDisable);
+    assert!(!registers.p_bit(ProcessorStatusBit::InterruptDisable));
+    assert_eq!(registers.p(), 0b10001010);
+
+    registers.toggle_p_bit(ProcessorStatusBit::InterruptDisable);
+    assert!(registers.p_bit(ProcessorStatusBit::InterruptDisable));
+    assert_eq!(registers.p(), 0b10001110);
 }
