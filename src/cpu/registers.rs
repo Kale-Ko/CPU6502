@@ -1,6 +1,6 @@
 /**
-* The different processor status bits that can be set in the processor status register.
-*/
+ * The different processor status bits that can be set in the processor status register.
+ */
 #[derive(Copy, Clone, Debug)]
 pub enum ProcessorStatusBit {
     /**
@@ -38,7 +38,7 @@ pub enum ProcessorStatusBit {
     /**
      * Negative flag, set if the last operation resulted in a negative value.
      */
-    Negative = 7,
+    Negative = 7
 }
 
 /**
@@ -74,7 +74,7 @@ pub struct Registers {
     /**
      * The 8-bit processor status register.
      */
-    p: u8,
+    p: u8
 }
 
 impl Registers {
@@ -237,36 +237,24 @@ impl Registers {
             x: 0,
             y: 0,
             a: 0,
-            p: 0,
+            p: 0
         }
     }
 }
 
 /**
-* Test all the simple methods on the Registers struct.
-*/
+ * Test all the simple methods on the Registers struct.
+ */
 #[test]
 fn test() {
     let mut registers: Registers = Registers::new();
 
-    assert_eq!(
-        registers.pc(),
-        0,
-        "Program counter should be initialized to 0"
-    );
-    assert_eq!(
-        registers.sp(),
-        0,
-        "Stack pointer should be initialized to 0"
-    );
+    assert_eq!(registers.pc(), 0, "Program counter should be initialized to 0");
+    assert_eq!(registers.sp(), 0, "Stack pointer should be initialized to 0");
     assert_eq!(registers.x(), 0, "X register should be initialized to 0");
     assert_eq!(registers.y(), 0, "Y register should be initialized to 0");
     assert_eq!(registers.a(), 0, "A register should be initialized to 0");
-    assert_eq!(
-        registers.p(),
-        0,
-        "Processor status register should be initialized to 0"
-    );
+    assert_eq!(registers.p(), 0, "Processor status register should be initialized to 0");
 
     registers.set_pc(0x00FA);
     assert_eq!(registers.pc(), 0x00FA, "Program counter should be set");
@@ -284,42 +272,26 @@ fn test() {
     assert_eq!(registers.y(), 0x34, "Y register should be set");
 
     registers.set_p(0b10101010);
-    assert_eq!(
-        registers.p(),
-        0b10101010,
-        "Processor status register should be set"
-    );
+    assert_eq!(registers.p(), 0b10101010, "Processor status register should be set");
 }
 
 /**
-* Test all the program counter specific methods on the Registers struct.
-*/
+ * Test all the program counter specific methods on the Registers struct.
+ */
 #[test]
 fn test_pc() {
     let mut registers: Registers = Registers::new();
 
-    assert_eq!(
-        registers.pc(),
-        0,
-        "Program counter should be initialized to 0"
-    );
+    assert_eq!(registers.pc(), 0, "Program counter should be initialized to 0");
 
     registers.set_pc(0x1234);
     assert_eq!(registers.pc(), 0x1234, "Program counter should be set");
 
     registers.incr_pr(0x0010);
-    assert_eq!(
-        registers.pc(),
-        0x1244,
-        "Program counter should be incremented"
-    );
+    assert_eq!(registers.pc(), 0x1244, "Program counter should be incremented");
 
     registers.decr_pr(0x0002);
-    assert_eq!(
-        registers.pc(),
-        0x1242,
-        "Program counter should be decremented"
-    );
+    assert_eq!(registers.pc(), 0x1242, "Program counter should be decremented");
 
     registers.set_pc(0xFFFF);
     assert_eq!(registers.pc(), 0xFFFF, "Program counter should be set");
@@ -340,17 +312,13 @@ fn test_pc() {
 }
 
 /**
-* Test all the stack pointer specific methods on the Registers struct.
-*/
+ * Test all the stack pointer specific methods on the Registers struct.
+ */
 #[test]
 fn test_sp() {
     let mut registers: Registers = Registers::new();
 
-    assert_eq!(
-        registers.sp(),
-        0,
-        "Stack pointer should be initialized to 0"
-    );
+    assert_eq!(registers.sp(), 0, "Stack pointer should be initialized to 0");
 
     registers.set_sp(0x80);
     assert_eq!(registers.sp(), 0x80, "Stack pointer should be set");
@@ -380,24 +348,16 @@ fn test_sp() {
 }
 
 /**
-* Test all the processor status register specific methods on the Registers struct.
-*/
+ * Test all the processor status register specific methods on the Registers struct.
+ */
 #[test]
 fn test_p() {
     let mut registers: Registers = Registers::new();
 
-    assert_eq!(
-        registers.p(),
-        0,
-        "Processor status register should be initialized to 0"
-    );
+    assert_eq!(registers.p(), 0, "Processor status register should be initialized to 0");
 
     registers.set_p(0b00001111);
-    assert_eq!(
-        registers.p(),
-        0b00001111,
-        "Processor status register should be set"
-    );
+    assert_eq!(registers.p(), 0b00001111, "Processor status register should be set");
 
     registers.set_p_bit(ProcessorStatusBit::Negative, true);
     assert!(registers.p_bit(ProcessorStatusBit::Negative));
@@ -409,17 +369,9 @@ fn test_p() {
 
     registers.toggle_p_bit(ProcessorStatusBit::InterruptDisable);
     assert!(!registers.p_bit(ProcessorStatusBit::InterruptDisable));
-    assert_eq!(
-        registers.p(),
-        0b10001010,
-        "Interrupt disable bit should be toggled off"
-    );
+    assert_eq!(registers.p(), 0b10001010, "Interrupt disable bit should be toggled off");
 
     registers.toggle_p_bit(ProcessorStatusBit::InterruptDisable);
     assert!(registers.p_bit(ProcessorStatusBit::InterruptDisable));
-    assert_eq!(
-        registers.p(),
-        0b10001110,
-        "Interrupt disable bit should be toggled on"
-    );
+    assert_eq!(registers.p(), 0b10001110, "Interrupt disable bit should be toggled on");
 }

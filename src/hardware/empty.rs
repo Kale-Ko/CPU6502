@@ -1,8 +1,8 @@
 use super::Hardware;
 
 /**
-* Represents a piece of hardware that does absolutely nothing and has no device implementations.
-*/
+ * Represents a piece of hardware that does absolutely nothing and has no device implementations.
+ */
 #[derive(Debug)]
 pub struct EmptyHardware {}
 
@@ -22,8 +22,8 @@ impl Hardware for EmptyHardware {
 }
 
 /**
-* Test the EmptyHardware implementation.
-*/
+ * Test the EmptyHardware implementation.
+ */
 #[test]
 fn test() {
     let mut empty: EmptyHardware = EmptyHardware::new();

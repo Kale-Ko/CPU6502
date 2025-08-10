@@ -2,8 +2,8 @@ pub mod empty;
 pub mod discard;
 
 /**
-* A hardware error that may or may not be fatal.
-*/
+ * A hardware error that may or may not be fatal.
+ */
 #[derive(Debug)]
 pub struct HardwareError {
     /**
@@ -14,8 +14,7 @@ pub struct HardwareError {
     /**
      * A message to describe the error to a user debugging.
      */
-    message: String,
-    // TODO signal other than segfault?
+    message: String // TODO signal other than segfault?
 }
 
 impl HardwareError {
@@ -42,8 +41,8 @@ impl HardwareError {
 }
 
 /**
-* Represents a piece of hardware in the system.
-*/
+ * Represents a piece of hardware in the system.
+ */
 pub trait Hardware {
     /**
      * Get the name of this piece of hardware.
@@ -68,8 +67,8 @@ pub trait Hardware {
 }
 
 /**
-* Represents a piece of hardware that can be addressed on the bus.
-*/
+ * Represents a piece of hardware that can be addressed on the bus.
+ */
 pub trait AddressableHardware: Hardware {
     /**
      * Reads a byte from the specified local address.

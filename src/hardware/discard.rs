@@ -1,8 +1,8 @@
 use super::{AddressableHardware, Hardware, HardwareError};
 
 /**
-* Represents a piece of addressable hardware that discards all input.
-*/
+ * Represents a piece of addressable hardware that discards all input.
+ */
 #[derive(Debug)]
 pub struct DiscardHardware {}
 
@@ -40,8 +40,8 @@ impl AddressableHardware for DiscardHardware {
 }
 
 /**
-* Test the DiscardHardware implementation.
-*/
+ * Test the DiscardHardware implementation.
+ */
 #[test]
 fn test() {
     let mut discard: DiscardHardware = DiscardHardware::new();
@@ -64,27 +64,19 @@ fn test() {
     );
 
     assert_eq!(
-        discard
-            .read(0x0000)
-            .expect("DiscardHardware should always be readable"),
+        discard.read(0x0000).expect("DiscardHardware should always be readable"),
         0,
         "DiscardHardware should always read 0"
     );
     assert_eq!(
-        discard
-            .read(0xF035)
-            .expect("DiscardHardware should always be readable"),
+        discard.read(0xF035).expect("DiscardHardware should always be readable"),
         0,
         "DiscardHardware should always read 0"
     );
 
-    discard
-        .write(0x0F6A, 0x58)
-        .expect("DiscardHardware should always be writable");
+    discard.write(0x0F6A, 0x58).expect("DiscardHardware should always be writable");
     assert_eq!(
-        discard
-            .read(0x0F6A)
-            .expect("DiscardHardware should always be readable"),
+        discard.read(0x0F6A).expect("DiscardHardware should always be readable"),
         0,
         "DiscardHardware should always read 0 even after write"
     );
