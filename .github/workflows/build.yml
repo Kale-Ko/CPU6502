@@ -71,14 +71,19 @@ jobs:
       - name: Build
         if: ${{ matrix.toolchain_version != 'nightly' }}
         run: |
-          cargo build --all-targets --target ${{ matrix.target.target }} --release
+          cargo build --release --all-targets --target ${{ matrix.target.target }}
 
       - name: Build Nightly
         if: ${{ matrix.toolchain_version == 'nightly' }}
         run: |
-          cargo build --all-targets --target ${{ matrix.target.target }} --release -Z build-std
+          cargo build --release --all-targets --target ${{ matrix.target.target }} -Z build-std
 
       - name: Test
-        if: ${{ !matrix.target.no_test }}
+        if: ${{ !matrix.target.no_test && matrix.toolchain_version != 'nightly' }}
         run: |
-          cargo test --target ${{ matrix.target.target }} --release
+          cargo test --locked --release --all-targets --target ${{ matrix.target.target }} --no-fail-fast
+
+      - name: Test Nightly
+        if: ${{ !matrix.target.no_test && matrix.toolchain_version == 'nightly' }}
+        run: |
+          cargo test --locked --release --all-targets --target ${{ matrix.target.target }} -Z build-std --no-fail-fast

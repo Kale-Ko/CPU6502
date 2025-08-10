@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         toolchain_version:
-          - "stable"
+          # - "stable"
           - "nightly"
 
       fail-fast: true
@@ -28,7 +28,7 @@ jobs:
 
       - name: Install Rust
         run: |
-          rustup toolchain install ${{ matrix.toolchain_version || 'stable' }} --profile default --component rustc,cargo,rust-std,rust-src,rust-fmt --allow-downgrade
+          rustup toolchain install ${{ matrix.toolchain_version || 'stable' }} --profile default --component rustc,cargo,rust-fmt --allow-downgrade
           rustup default ${{ matrix.toolchain_version || 'stable' }}
 
       - name: Check Format
